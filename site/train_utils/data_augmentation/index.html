@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>data_augmentation - DeepExpressions</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "data_augmentation";
+    var mkdocs_page_input_path = "train_utils/data_augmentation.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> DeepExpressions</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">PACKAGE</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../face_detector/">FaceDetector</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../model/">Model</a>
+                </li>
+                <li class=" current">
+                    
+    <span class="caption-text">train_utils</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../DataLoader/">DataLoader</a>
+                </li>
+                <li class="toctree-l3 current">
+                    
+    <a class="current" href="./">data_augmentation</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l4"><a href="#flip_left_right">flip_left_right</a></li>
+    
+
+    <li class="toctree-l4"><a href="#flip_up_down">flip_up_down</a></li>
+    
+
+    <li class="toctree-l4"><a href="#random_brightness">random_brightness</a></li>
+    
+
+    <li class="toctree-l4"><a href="#random_contrast">random_contrast</a></li>
+    
+
+    <li class="toctree-l4"><a href="#random_hue">random_hue</a></li>
+    
+
+    <li class="toctree-l4"><a href="#random_jpeg_quality">random_jpeg_quality</a></li>
+    
+
+    <li class="toctree-l4"><a href="#random_rotation">random_rotation</a></li>
+    
+
+    <li class="toctree-l4"><a href="#random_saturation">random_saturation</a></li>
+    
+
+    <li class="toctree-l4"><a href="#random_shear">random_shear</a></li>
+    
+
+    <li class="toctree-l4"><a href="#random_zoom">random_zoom</a></li>
+    
+
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">wrapper</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../wrapper/ImageDetector/">ImageDetector</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../wrapper/VideoDetector/">VideoDetector</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">DeepExpressions</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>train_utils &raquo;</li>
+        
+      
+        
+          <li>PACKAGE &raquo;</li>
+        
+      
+    
+    <li>data_augmentation</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1>Data Augmentation</h1>
+
+<p>Package with data augmentation techiniques to apply to the dataset. Pass them as a list to the argument <strong><em>data_augm</em></strong> in the <a href="../DataLoader/"><code>DataLoader()</code></a> class. Follow the example below:</p>
+<pre><code class="python">from DeepExpressions.train_utils import DataLoader, data_augmentation as daug
+
+daug_list = [
+    daug.flip_left_right,
+    daug.flip_up_down,
+    daug.random_brightness,
+    daug.random_contrast,
+    daug.random_hue,
+    daug.random_jpeg_quality,
+    daug.random_rotation,
+    daug.random_saturation,
+    daug.random_shear,
+    daug.random_zoom
+]
+
+dataset = DataLoader(data_root=&quot;...&quot;, data_augm=daug_list)
+</code></pre>
+
+<hr />
+<h2 id="flip_left_right">flip_left_right</h2>
+<p>Flip an image horizontally (left to right).</p>
+<pre><code class="python">DeepExpressions.train_utils.flip_left_right(image, label: tuple)
+</code></pre>
+
+<p><img alt="original" src="../../images/daug/cat.jpg" /> <img alt="flip_left_right" src="../../images/daug/flip_left_right.jpg" /></p>
+<p><small>
+<p><a href="https://www.flickr.com/photos/malfet/1428198050">This image</a> by <a href="https://www.flickr.com/photos/malfet/">Nikita</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY 2.0</a></p>
+</small></p>
+<hr />
+<h2 id="flip_up_down">flip_up_down</h2>
+<p>Flip an image vertically (upside down).</p>
+<pre><code class="python">DeepExpressions.train_utils.flip_up_down(image, label: tuple)
+</code></pre>
+
+<p><img alt="original" src="../../images/daug/cat.jpg" /> <img alt="flip_up_down" src="../../images/daug/flip_up_down.jpg" /></p>
+<p><small>
+<p><a href="https://www.flickr.com/photos/malfet/1428198050">This image</a> by <a href="https://www.flickr.com/photos/malfet/">Nikita</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY 2.0</a></p>
+</small></p>
+<hr />
+<h2 id="random_brightness">random_brightness</h2>
+<p>Adjust the brightness of images by a random factor.</p>
+<pre><code class="python">DeepExpressions.train_utils.random_brightness(image, label: tuple, max_delta=0.5)
+</code></pre>
+
+<blockquote>
+<ul>
+<li><strong>max_delta:</strong> Amount to add to the pixel values.</li>
+</ul>
+</blockquote>
+<p><img alt="original" src="../../images/daug/cat.jpg" /> <img alt="random_brightness" src="../../images/daug/random_brightness.jpg" /></p>
+<p><small>
+<p><a href="https://www.flickr.com/photos/malfet/1428198050">This image</a> by <a href="https://www.flickr.com/photos/malfet/">Nikita</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY 2.0</a></p>
+</small></p>
+<hr />
+<h2 id="random_contrast">random_contrast</h2>
+<p>Adjust the contrast of an image or images by a random factor.</p>
+<pre><code class="python">DeepExpressions.train_utils.random_contrast(image, label: tuple, lower=0.5, upper=2.5)
+</code></pre>
+
+<blockquote>
+<ul>
+<li><strong>lower:</strong> Lower bound for the random contrast factor.</li>
+<li><strong>upper:</strong> Upper bound for the random contrast factor.</li>
+</ul>
+</blockquote>
+<p><img alt="original" src="../../images/daug/cat.jpg" /> <img alt="random_contrast" src="../../images/daug/random_contrast.jpg" /></p>
+<p><small>
+<p><a href="https://www.flickr.com/photos/malfet/1428198050">This image</a> by <a href="https://www.flickr.com/photos/malfet/">Nikita</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY 2.0</a></p>
+</small></p>
+<hr />
+<h2 id="random_hue">random_hue</h2>
+<p>Adjust the hue of RGB images by a random factor.</p>
+<pre><code class="python">DeepExpressions.train_utils.random_hue(image, label: tuple, max_delta=0.5)
+</code></pre>
+
+<blockquote>
+<ul>
+<li><strong>max_delta:</strong> Maximum value for the random delta.</li>
+</ul>
+</blockquote>
+<p><img alt="original" src="../../images/daug/cat.jpg" /> <img alt="random_hue" src="../../images/daug/random_hue.jpg" /></p>
+<p><small>
+<p><a href="https://www.flickr.com/photos/malfet/1428198050">This image</a> by <a href="https://www.flickr.com/photos/malfet/">Nikita</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY 2.0</a></p>
+</small></p>
+<hr />
+<h2 id="random_jpeg_quality">random_jpeg_quality</h2>
+<p>Randomly changes jpeg encoding quality for inducing jpeg noise.</p>
+<pre><code class="python">DeepExpressions.train_utils.random_jpeg_quality(image, label: tuple, min_jpeg_quality=5, max_jpeg_quality=25)
+</code></pre>
+
+<blockquote>
+<ul>
+<li><strong>min_jpeg_quality:</strong> Minimum jpeg encoding quality to use.</li>
+<li><strong>max_jpeg_quality:</strong> Maximum jpeg encoding quality to use.</li>
+</ul>
+</blockquote>
+<p><img alt="original" src="../../images/daug/cat.jpg" /> <img alt="random_jpeg_quality" src="../../images/daug/random_jpeg_quality.jpg" /></p>
+<p><small>
+<p><a href="https://www.flickr.com/photos/malfet/1428198050">This image</a> by <a href="https://www.flickr.com/photos/malfet/">Nikita</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY 2.0</a></p>
+</small></p>
+<hr />
+<h2 id="random_rotation">random_rotation</h2>
+<p>Performs a random rotation of a image.</p>
+<pre><code class="python">DeepExpressions.train_utils.random_rotation(image, label: tuple, angle=45)
+</code></pre>
+
+<blockquote>
+<ul>
+<li><strong>angle:</strong> Rotation range, in degrees.</li>
+</ul>
+</blockquote>
+<p><img alt="original" src="../../images/daug/cat.jpg" /> <img alt="random_jpeg_quality" src="../../images/daug/random_rotation.jpg" /></p>
+<p><small>
+<p><a href="https://www.flickr.com/photos/malfet/1428198050">This image</a> by <a href="https://www.flickr.com/photos/malfet/">Nikita</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY 2.0</a></p>
+</small></p>
+<hr />
+<h2 id="random_saturation">random_saturation</h2>
+<p>Adjust the saturation of RGB images by a random factor.</p>
+<pre><code class="python">DeepExpressions.train_utils.random_saturation(image, label: tuple, lower=0, upper=5)
+</code></pre>
+
+<blockquote>
+<ul>
+<li><strong>lower:</strong> Lower bound for the random saturation factor.</li>
+<li><strong>upper:</strong> Upper bound for the random saturation factor.</li>
+</ul>
+</blockquote>
+<p><img alt="original" src="../../images/daug/cat.jpg" /> <img alt="random_saturation" src="../../images/daug/random_saturation.jpg" /></p>
+<p><small>
+<p><a href="https://www.flickr.com/photos/malfet/1428198050">This image</a> by <a href="https://www.flickr.com/photos/malfet/">Nikita</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY 2.0</a></p>
+</small></p>
+<hr />
+<h2 id="random_shear">random_shear</h2>
+<p>Performs a random spatial shear of a image.</p>
+<pre><code class="python">DeepExpressions.train_utils.random_shear(image, label: tuple, intensity=45)
+</code></pre>
+
+<blockquote>
+<ul>
+<li><strong>intensity:</strong>  Transformation intensity in degrees.</li>
+</ul>
+</blockquote>
+<p><img alt="original" src="../../images/daug/cat.jpg" /> <img alt="random_jpeg_quality" src="../../images/daug/random_shear.jpg" /></p>
+<p><small>
+<p><a href="https://www.flickr.com/photos/malfet/1428198050">This image</a> by <a href="https://www.flickr.com/photos/malfet/">Nikita</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY 2.0</a></p>
+</small></p>
+<hr />
+<h2 id="random_zoom">random_zoom</h2>
+<p>Performs a random spatial zoom of a image.</p>
+<pre><code class="python">DeepExpressions.train_utils.random_zoom(image, label: tuple, zoom_range=(0.6, 0.6))
+</code></pre>
+
+<blockquote>
+<ul>
+<li><strong>zoom_range:</strong> Zoom range for width and height.</li>
+</ul>
+</blockquote>
+<p><img alt="original" src="../../images/daug/cat.jpg" /> <img alt="random_saturation" src="../../images/daug/random_zoom.jpg" /></p>
+<p><small>
+<p><a href="https://www.flickr.com/photos/malfet/1428198050">This image</a> by <a href="https://www.flickr.com/photos/malfet/">Nikita</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY 2.0</a></p>
+</small></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../wrapper/ImageDetector/" class="btn btn-neutral float-right" title="ImageDetector">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../DataLoader/" class="btn btn-neutral" title="DataLoader"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../DataLoader/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../../wrapper/ImageDetector/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>
