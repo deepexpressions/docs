@@ -8,9 +8,9 @@ nav:
     - train_utils: 
       - DataLoader: train_utils/DataLoader.md
       - data_augmentation: train_utils/data_augmentation.md
-    - wrapper: 
-      - ImageDetector: wrapper/ImageDetector.md
-      - VideoDetector: wrapper/VideoDetector.md
+    # - wrapper: 
+    #   - ImageDetector: wrapper/ImageDetector.md
+    #   - VideoDetector: wrapper/VideoDetector.md
 
 theme:
   name: readthedocs
